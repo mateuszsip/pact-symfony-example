@@ -27,7 +27,6 @@ final class FetchAccountList
 
         $payload = $response->toArray();
 
-
         return array_map(
             fn(array $account) => new Account($account['id'], $this->product),
             $payload

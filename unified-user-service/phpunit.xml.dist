@@ -11,14 +11,22 @@
     <php>
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
-        <server name="APP_ENV" value="test" force="true" />
+        <env name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
+        <env name="PACT_MOCK_SERVER_HOST" value="localhost" />
+        <env name="PACT_MOCK_SERVER_PORT" value="9990" />
+        <env name="PACT_CONSUMER_NAME" value="unified-user-service" />
+        <env name="PACT_PROVIDER_NAME" value="cards" />
+
+        <env name="PACT_BROKER_URI" value="http://pact-broker" />
+        <env name="PACT_CONSUMER_VERSION" value="master" />
+        <env name="PACT_CONSUMER_TAG" value="1.0" />
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="integration">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
@@ -31,12 +39,12 @@
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <listener class="UUS\Tests\PactConsumerTestListener">
+            <arguments>
+                <array>
+                    <element key="0"><string>integration</string></element>
+                </array>
+            </arguments>
+        </listener>
     </listeners>
-
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
-    <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
-    </extensions>
-    -->
 </phpunit>
