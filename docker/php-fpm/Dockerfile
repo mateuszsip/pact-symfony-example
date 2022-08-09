@@ -1,6 +1,7 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.1-fpm
 
-RUN apk --no-cache add postgresql-dev \
+RUN apt-get update \
+    && apt-get install -y libpq-dev \
     && docker-php-source extract \
     && docker-php-ext-install -j$(nproc) pdo_pgsql \
     && docker-php-source delete
