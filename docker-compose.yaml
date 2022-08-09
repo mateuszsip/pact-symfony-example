@@ -26,6 +26,32 @@ services:
       ROOT_DIR: /app/public
     ports:
       - "9900:80"
+  cards-php:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./cards:/app
+      - /tmp/composer-cache:/.composer/cache
+    working_dir: /app
+    user: ${UID:-1000}:${GID:-1000}
+    networks:
+      - pact-demo
+    env_file:
+      - ./cards/.env
+  cards-web:
+    image: nginx:1.23-alpine
+    depends_on:
+      - adoption-php
+    volumes:
+      - ./docker/php-nginx:/etc/nginx/templates
+      - ./cards/public:/app/public
+    networks:
+      - pact-demo
+    environment:
+      FPM_HOST: cards-php
+      ROOT_DIR: /app/public
+    ports:
+      - "9901:80"
 
 networks:
   pact-demo:
