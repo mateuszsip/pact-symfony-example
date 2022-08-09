@@ -53,5 +53,28 @@ services:
     ports:
       - "9901:80"
 
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d
+    networks:
+      - pact-demo
+
+  pact-broker:
+    image: pactfoundation/pact-broker:2
+    environment:
+      PACT_BROKER_PORT: '9292'
+      PACT_BROKER_DATABASE_URL: "postgres://broker_user:broker_password@db/broker"
+    ports:
+      - "9910:9292"
+    depends_on:
+      - postgres
+    networks:
+      - pact-demo
+
 networks:
   pact-demo:
