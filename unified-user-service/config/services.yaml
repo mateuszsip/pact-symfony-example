@@ -24,5 +24,10 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\FetchAccountList:
+        arguments:
+            $baseUri: '%env(CARDS_BASE_URL)%'
+            $product: 'Cards'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
