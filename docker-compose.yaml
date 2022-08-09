@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  unified-user-service-php:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./unified-user-service:/app
+      - /tmp/composer-cache:/.composer/cache
+    working_dir: /app
+    user: ${UID:-1000}:${GID:-1000}
+    networks:
+      - pact-demo
+    env_file:
+      - ./unified-user-service/.env
+  unified-user-service-web:
+    image: nginx:1.23-alpine
+    depends_on:
+      - adoption-php
+    volumes:
+      - ./docker/php-nginx:/etc/nginx/templates
+      - ./unified-user-service/public:/app/public
+    networks:
+      - pact-demo
+    environment:
+      FPM_HOST: unified-user-service-php
+      ROOT_DIR: /app/public
+    ports:
+      - "9900:80"
+
+networks:
+  pact-demo:
