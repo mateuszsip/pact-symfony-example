@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace UUS;
 
 use JetBrains\PhpStorm\Internal\TentativeType;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace Cards;
 
 use JetBrains\PhpStorm\Internal\TentativeType;
 
