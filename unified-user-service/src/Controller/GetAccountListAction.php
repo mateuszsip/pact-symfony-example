@@ -2,22 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Controller;
 
+use App\FetchAccountList;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class GetAccountListAction
 {
+    public function __construct(private readonly FetchAccountList $fetchAccountList) {}
+
     #[Route('/accounts', name: 'account_list')]
     public function __invoke(): JsonResponse
     {
+        $accounts = ($this->fetchAccountList)();
+
         return new JsonResponse([
-            'accounts' => [
-                new Account('acc-123-456', 'ShinyNewProduct'),
-                new Account('3022eec0-26fc-49fc-9bb2-b69d24641720', 'OtherProduct'),
-                new Account('997', 'ForgottenProduct'),
-            ]
+            'accounts' => $accounts
         ]);
     }
 }
