@@ -15,6 +15,7 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
         <env name="PACT_MOCK_SERVER_HOST" value="localhost" />
         <env name="PACT_MOCK_SERVER_PORT" value="9990" />
         <env name="PACT_CONSUMER_NAME" value="unified-user-service" />
