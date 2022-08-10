@@ -10,6 +10,7 @@ use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 final class SetupStateAction
 {
@@ -30,13 +31,13 @@ final class SetupStateAction
 
         switch ([$consumer, $state]) {
             case ['unified-user-service', 'accounts exist']:
-                $this->accountRepository->create(
-                    new Account('3022eec0-26fc-49fc-9bb2-b69d24641720'),
-                    new Account('ee9f9849-fd8b-465e-83c9-327a55ab5009'),
-                    new Account('8fc2e5b9-ae46-43cb-8acd-707661c9bd16'),
-                    new Account('b42aeca8-444f-4a91-8375-679c3e496c15'),
-                    new Account('28258539-f6d4-44ce-ad20-a5f503531f28')
-                );
+                $accounts = [];
+
+                for ($i=1;$i<=5;$i++) {
+                    $accounts[] = new Account(Uuid::v4()->toRfc4122());
+                }
+
+                $this->accountRepository->create(...$accounts);
 
                 return new JsonResponse(null, JsonResponse::HTTP_OK);
 
