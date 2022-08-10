@@ -29,6 +29,10 @@ final class SetupStateAction
         $consumer = $payload['consumer'];
         $state = $payload['state'];
 
+        if (empty($state)) {
+            return new JsonResponse(null, JsonResponse::HTTP_OK);
+        }
+
         switch ([$consumer, $state]) {
             case ['unified-user-service', 'accounts exist']:
                 $accounts = [];
@@ -40,8 +44,6 @@ final class SetupStateAction
                 $this->accountRepository->create(...$accounts);
 
                 return new JsonResponse(null, JsonResponse::HTTP_OK);
-
-                break;
         }
 
         return new JsonResponse(null, JsonResponse::HTTP_NOT_FOUND);
