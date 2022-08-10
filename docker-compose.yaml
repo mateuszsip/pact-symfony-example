@@ -82,5 +82,15 @@ services:
     networks:
       - pact-demo
 
+  pact-cards-stub-empty:
+    image: pactfoundation/pact-stub-server
+    command: '-b http://pact-broker -p 80 -o --provider-names=cards --provider-state=test --empty-provider-state'
+    ports:
+      - "9921:80"
+    depends_on:
+      - pact-broker
+    networks:
+      - pact-demo
+
 networks:
   pact-demo:
